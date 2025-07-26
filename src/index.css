@@ -134,25 +134,103 @@
 
   body {
     @apply bg-background text-foreground;
+    background: linear-gradient(-45deg, #f8fafc, #f1f5f9, #e2e8f0, #f8fafc);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
   }
+}
+
+/* Background Animations */
+.animated-background {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(-45deg, 
+    hsl(214 84% 56% / 0.03), 
+    hsl(142 76% 36% / 0.03), 
+    hsl(38 92% 50% / 0.03), 
+    hsl(199 89% 48% / 0.03)
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.floating-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.floating-shape {
+  position: absolute;
+  background: linear-gradient(135deg, hsl(214 84% 56% / 0.1), hsl(214 84% 70% / 0.05));
+  border-radius: 50%;
+  animation: float 20s infinite linear;
+}
+
+.floating-shape:nth-child(1) {
+  width: 80px;
+  height: 80px;
+  left: 10%;
+  animation-delay: 0s;
+  animation-duration: 25s;
+}
+
+.floating-shape:nth-child(2) {
+  width: 120px;
+  height: 120px;
+  left: 70%;
+  animation-delay: -5s;
+  animation-duration: 30s;
+}
+
+.floating-shape:nth-child(3) {
+  width: 60px;
+  height: 60px;
+  left: 40%;
+  animation-delay: -10s;
+  animation-duration: 22s;
+}
+
+.floating-shape:nth-child(4) {
+  width: 100px;
+  height: 100px;
+  left: 85%;
+  animation-delay: -15s;
+  animation-duration: 28s;
 }
 
 /* Dashboard Animations and Utilities */
 @layer components {
   .dashboard-card {
-    @apply bg-card border border-border rounded-xl p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:shadow-[var(--shadow-elegant)];
+    @apply bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:shadow-[var(--shadow-elegant)] hover:scale-[1.02];
   }
 
   .sidebar-item {
-    @apply relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-muted;
+    @apply relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-muted hover:scale-105;
   }
 
   .sidebar-item.active {
-    @apply bg-primary text-primary-foreground;
+    @apply bg-primary text-primary-foreground shadow-lg;
   }
 
   .stats-card {
-    @apply dashboard-card bg-gradient-to-br from-card to-muted/30;
+    @apply dashboard-card bg-gradient-to-br from-card/90 to-muted/30 backdrop-blur-sm;
   }
 
   .notification-dot {
@@ -170,6 +248,14 @@
   .count-up {
     @apply animate-[countUp_1s_ease-out];
   }
+
+  .pulse-slow {
+    @apply animate-[pulse_3s_ease-in-out_infinite];
+  }
+
+  .bounce-slow {
+    @apply animate-[bounce_2s_infinite];
+  }
 }
 
 @layer utilities {
@@ -186,7 +272,33 @@
   }
 }
 
-/* Keyframe Animations */
+/* Enhanced Keyframe Animations */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0% { 
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  100% { 
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -200,4 +312,17 @@
 @keyframes countUp {
   from { transform: scale(0.8); opacity: 0.5; }
   to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px hsl(214 84% 56% / 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 30px hsl(214 84% 56% / 0.5);
+  }
+}
+
+.glow-animation {
+  animation: glow 2s ease-in-out infinite;
 }

@@ -2,8 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Search, Plus, MoreHorizontal, Users, Clock, Calendar } from 'lucide-react';
+import { BookOpen, Search, Plus, MoreHorizontal, Users, Clock, Calendar, Edit, Eye, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { AddClassModal } from '@/components/modals/AddClassModal';
+import { useToast } from '@/hooks/use-toast';
 
 interface Class {
   id: string;
@@ -79,6 +81,7 @@ export function ClassesView() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
+  const { toast } = useToast();
 
   const filteredClasses = mockClasses.filter(cls => {
     const matchesSearch = cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -92,6 +95,22 @@ export function ClassesView() {
   const grades = ['all', '9th', '10th', '11th', '12th'];
   const statuses = ['all', 'active', 'completed', 'cancelled'];
 
+  const handleClassAction = (action: string, classId: string, className: string) => {
+    const messages = {
+      edit: `Editing ${className}`,
+      view: `Viewing details for ${className}`,
+      delete: `${className} has been removed`,
+      enroll: `Opening enrollment for ${className}`,
+      schedule: `Managing schedule for ${className}`
+    };
+    
+    toast({
+      title: action.charAt(0).toUpperCase() + action.slice(1),
+      description: messages[action as keyof typeof messages],
+      variant: action === 'delete' ? 'destructive' : 'default'
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -100,10 +119,7 @@ export function ClassesView() {
           <h2 className="text-3xl font-bold text-foreground">Classes</h2>
           <p className="text-muted-foreground">Manage class schedules and assignments</p>
         </div>
-        <Button className="bg-class text-white hover:bg-class/90">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Class
-        </Button>
+        <AddClassModal />
       </div>
 
       {/* Stats Cards */}
@@ -240,9 +256,29 @@ export function ClassesView() {
                     <span className="text-xs bg-muted px-2 py-1 rounded">
                       Grade {cls.grade}
                     </span>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
+                    <div className="flex gap-1">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleClassAction('view', cls.id, cls.name)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleClassAction('edit', cls.id, cls.name)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleClassAction('delete', cls.id, cls.name)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

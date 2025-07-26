@@ -1,7 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BarChart3, TrendingUp, Download, FileText, Calendar, Users, PieChart, Activity } from 'lucide-react';
+import { BarChart3, TrendingUp, Download, FileText, Calendar, Users, PieChart, Activity, Share2, Eye } from 'lucide-react';
+import { GenerateReportModal } from '@/components/modals/GenerateReportModal';
+import { useToast } from '@/hooks/use-toast';
 
 interface ReportCard {
   id: string;
@@ -90,6 +92,37 @@ const getStatusBadge = (status: string) => {
 };
 
 export function ReportsView() {
+  const { toast } = useToast();
+
+  const handleDownloadReport = (reportId: string, reportTitle: string) => {
+    toast({
+      title: "Download Started",
+      description: `Downloading ${reportTitle}...`,
+    });
+    
+    // Simulate download
+    setTimeout(() => {
+      toast({
+        title: "Download Complete",
+        description: `${reportTitle} has been downloaded successfully.`,
+      });
+    }, 2000);
+  };
+
+  const handleViewReport = (reportId: string, reportTitle: string) => {
+    toast({
+      title: "Opening Report",
+      description: `Opening ${reportTitle} in viewer...`,
+    });
+  };
+
+  const handleScheduleReport = (reportId: string, reportTitle: string) => {
+    toast({
+      title: "Schedule Report",
+      description: `Opening scheduler for ${reportTitle}...`,
+    });
+  };
+
   const quickStats = [
     { label: 'Total Reports', value: '24', change: '+3 this month' },
     { label: 'Automated Reports', value: '18', change: '75% automated' },
@@ -105,10 +138,7 @@ export function ReportsView() {
           <h2 className="text-3xl font-bold text-foreground">Reports & Analytics</h2>
           <p className="text-muted-foreground">Generate and view comprehensive school reports</p>
         </div>
-        <Button className="bg-report text-white hover:bg-report/90">
-          <FileText className="h-4 w-4 mr-2" />
-          Generate New Report
-        </Button>
+        <GenerateReportModal />
       </div>
 
       {/* Quick Stats */}
@@ -200,23 +230,41 @@ export function ReportsView() {
                       <span className="text-xs bg-muted px-2 py-1 rounded capitalize">
                         {report.type}
                       </span>
-                      {report.status === 'ready' && (
-                        <Button variant="outline" size="sm">
-                          <Download className="h-4 w-4 mr-2" />
-                          Download
-                        </Button>
-                      )}
-                      {report.status === 'generating' && (
-                        <Button variant="outline" size="sm" disabled>
-                          Generating...
-                        </Button>
-                      )}
-                      {report.status === 'scheduled' && (
-                        <Button variant="outline" size="sm">
-                          <Calendar className="h-4 w-4 mr-2" />
-                          Schedule
-                        </Button>
-                      )}
+                      <div className="flex gap-1">
+                        {report.status === 'ready' && (
+                          <>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => handleViewReport(report.id, report.title)}
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => handleDownloadReport(report.id, report.title)}
+                            >
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          </>
+                        )}
+                        {report.status === 'generating' && (
+                          <Button variant="outline" size="sm" disabled>
+                            Generating...
+                          </Button>
+                        )}
+                        {report.status === 'scheduled' && (
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleScheduleReport(report.id, report.title)}
+                          >
+                            <Calendar className="h-4 w-4 mr-2" />
+                            Schedule
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

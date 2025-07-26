@@ -4,10 +4,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { Settings, User, Bell, Shield, Palette, Database, Mail, Globe } from 'lucide-react';
+import { Settings, User, Bell, Shield, Palette, Database, Mail, Globe, Save, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export function SettingsView() {
+  const { toast } = useToast();
   const [notifications, setNotifications] = useState({
     email: true,
     push: true,
@@ -23,10 +25,82 @@ export function SettingsView() {
 
   const handleNotificationChange = (key: string, value: boolean) => {
     setNotifications(prev => ({ ...prev, [key]: value }));
+    toast({
+      title: "Settings Updated",
+      description: `${key.charAt(0).toUpperCase() + key.slice(1)} notifications ${value ? 'enabled' : 'disabled'}.`,
+    });
   };
 
   const handleAppearanceChange = (key: string, value: boolean) => {
     setAppearance(prev => ({ ...prev, [key]: value }));
+    toast({
+      title: "Appearance Updated",
+      description: `${key.charAt(0).toUpperCase() + key.slice(1)} ${value ? 'enabled' : 'disabled'}.`,
+    });
+  };
+
+  const handleUpdateProfile = () => {
+    toast({
+      title: "Profile Updated",
+      description: "Your profile information has been saved successfully.",
+    });
+  };
+
+  const handleChangePassword = () => {
+    toast({
+      title: "Password Changed",
+      description: "Your password has been updated successfully.",
+    });
+  };
+
+  const handleEnable2FA = () => {
+    toast({
+      title: "2FA Setup",
+      description: "Two-factor authentication setup initiated.",
+    });
+  };
+
+  const handleUpdateSchoolInfo = () => {
+    toast({
+      title: "School Info Updated",
+      description: "School information has been saved successfully.",
+    });
+  };
+
+  const handleBackup = () => {
+    toast({
+      title: "Backup Started",
+      description: "Data backup process has been initiated.",
+    });
+  };
+
+  const handleExportData = () => {
+    toast({
+      title: "Export Started",
+      description: "Data export is being prepared for download.",
+    });
+  };
+
+  const handleImportData = () => {
+    toast({
+      title: "Import Data",
+      description: "Opening data import interface.",
+    });
+  };
+
+  const handleClearCache = () => {
+    toast({
+      title: "Cache Cleared",
+      description: "Application cache has been cleared successfully.",
+    });
+  };
+
+  const handleResetToDefaults = () => {
+    toast({
+      title: "Settings Reset",
+      description: "All settings have been reset to default values.",
+      variant: "destructive"
+    });
   };
 
   return (
@@ -64,7 +138,10 @@ export function SettingsView() {
               <Label htmlFor="role">Role</Label>
               <Input id="role" defaultValue="System Administrator" disabled />
             </div>
-            <Button className="w-full">Update Profile</Button>
+            <Button className="w-full" onClick={handleUpdateProfile}>
+              <Save className="h-4 w-4 mr-2" />
+              Update Profile
+            </Button>
           </CardContent>
         </Card>
 
@@ -144,12 +221,18 @@ export function SettingsView() {
               <Label htmlFor="confirm-password">Confirm Password</Label>
               <Input id="confirm-password" type="password" placeholder="Confirm new password" />
             </div>
-            <Button variant="outline" className="w-full">Change Password</Button>
+            <Button variant="outline" className="w-full" onClick={handleChangePassword}>
+              <Shield className="h-4 w-4 mr-2" />
+              Change Password
+            </Button>
             <Separator />
             <div className="space-y-2">
               <Label>Two-Factor Authentication</Label>
               <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
-              <Button variant="outline" className="w-full">Enable 2FA</Button>
+              <Button variant="outline" className="w-full" onClick={handleEnable2FA}>
+                <Shield className="h-4 w-4 mr-2" />
+                Enable 2FA
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -226,7 +309,10 @@ export function SettingsView() {
               <Label htmlFor="school-email">Official Email</Label>
               <Input id="school-email" defaultValue="info@springfieldhigh.edu" />
             </div>
-            <Button className="w-full">Update School Info</Button>
+            <Button className="w-full" onClick={handleUpdateSchoolInfo}>
+              <Save className="h-4 w-4 mr-2" />
+              Update School Info
+            </Button>
           </CardContent>
         </Card>
 
@@ -264,18 +350,19 @@ export function SettingsView() {
               </select>
             </div>
             <Separator />
-            <div className="space-y-2">
-              <Label>Data Backup</Label>
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1">
-                  <Database className="h-4 w-4 mr-2" />
-                  Backup Now
-                </Button>
-                <Button variant="outline" className="flex-1">
-                  Schedule Backup
-                </Button>
+              <div className="space-y-2">
+                <Label>Data Backup</Label>
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-1" onClick={handleBackup}>
+                    <Database className="h-4 w-4 mr-2" />
+                    Backup Now
+                  </Button>
+                  <Button variant="outline" className="flex-1" onClick={handleBackup}>
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Schedule Backup
+                  </Button>
+                </div>
               </div>
-            </div>
           </CardContent>
         </Card>
       </div>
@@ -287,18 +374,19 @@ export function SettingsView() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-4">
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleExportData}>
               <Mail className="h-4 w-4 mr-2" />
               Export Data
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleImportData}>
               <Database className="h-4 w-4 mr-2" />
               Import Data
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleClearCache}>
+              <RefreshCw className="h-4 w-4 mr-2" />
               Clear Cache
             </Button>
-            <Button variant="destructive" className="ml-auto">
+            <Button variant="destructive" className="ml-auto" onClick={handleResetToDefaults}>
               Reset to Defaults
             </Button>
           </div>

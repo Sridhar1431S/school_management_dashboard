@@ -2,8 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { GraduationCap, Search, Plus, MoreHorizontal, Mail, Phone, Calendar } from 'lucide-react';
+import { GraduationCap, Search, Plus, MoreHorizontal, Mail, Phone, Calendar, Edit, Eye, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { AddTeacherModal } from '@/components/modals/AddTeacherModal';
+import { useToast } from '@/hooks/use-toast';
 
 interface Teacher {
   id: string;
@@ -78,6 +80,7 @@ const mockTeachers: Teacher[] = [
 export function TeachersView() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
+  const { toast } = useToast();
 
   const filteredTeachers = mockTeachers.filter(teacher => {
     const matchesSearch = teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -89,6 +92,23 @@ export function TeachersView() {
 
   const subjects = ['all', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'English Literature'];
 
+  const handleActions = (action: string, teacherId: string, teacherName: string) => {
+    const messages = {
+      email: `Email sent to ${teacherName}`,
+      call: `Calling ${teacherName}...`,
+      schedule: `Opening schedule for ${teacherName}`,
+      edit: `Editing ${teacherName}'s profile`,
+      view: `Viewing ${teacherName}'s profile`,
+      delete: `${teacherName} has been removed from faculty`
+    };
+    
+    toast({
+      title: action.charAt(0).toUpperCase() + action.slice(1),
+      description: messages[action as keyof typeof messages],
+      variant: action === 'delete' ? 'destructive' : 'default'
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -97,10 +117,7 @@ export function TeachersView() {
           <h2 className="text-3xl font-bold text-foreground">Teachers</h2>
           <p className="text-muted-foreground">Manage faculty and staff information</p>
         </div>
-        <Button className="bg-teacher text-white hover:bg-teacher/90">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Teacher
-        </Button>
+        <AddTeacherModal />
       </div>
 
       {/* Stats Cards */}
@@ -219,17 +236,47 @@ export function TeachersView() {
                     {teacher.status}
                   </Badge>
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleActions('email', teacher.id, teacher.name)}
+                    >
                       <Mail className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleActions('call', teacher.id, teacher.name)}
+                    >
                       <Phone className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleActions('schedule', teacher.id, teacher.name)}
+                    >
                       <Calendar className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleActions('edit', teacher.id, teacher.name)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleActions('view', teacher.id, teacher.name)}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleActions('delete', teacher.id, teacher.name)}
+                    >
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>

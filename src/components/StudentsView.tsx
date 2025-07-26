@@ -2,8 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Users, Search, Filter, Plus, MoreHorizontal, Mail, Phone } from 'lucide-react';
+import { Users, Search, Filter, Plus, MoreHorizontal, Mail, Phone, Edit, Eye, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { AddStudentModal } from '@/components/modals/AddStudentModal';
+import { useToast } from '@/hooks/use-toast';
 
 interface Student {
   id: string;
@@ -78,6 +80,7 @@ const mockStudents: Student[] = [
 export function StudentsView() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('all');
+  const { toast } = useToast();
 
   const filteredStudents = mockStudents.filter(student => {
     const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -88,6 +91,42 @@ export function StudentsView() {
 
   const grades = ['all', '9th', '10th', '11th', '12th'];
 
+  const handleEmailStudent = (studentId: string, studentName: string) => {
+    toast({
+      title: "Email Sent!",
+      description: `Email has been sent to ${studentName}.`,
+    });
+  };
+
+  const handleCallStudent = (studentId: string, studentName: string) => {
+    toast({
+      title: "Call Initiated",
+      description: `Calling ${studentName}...`,
+    });
+  };
+
+  const handleEditStudent = (studentId: string, studentName: string) => {
+    toast({
+      title: "Edit Student",
+      description: `Opening edit form for ${studentName}.`,
+    });
+  };
+
+  const handleViewStudent = (studentId: string, studentName: string) => {
+    toast({
+      title: "Student Profile",
+      description: `Viewing profile for ${studentName}.`,
+    });
+  };
+
+  const handleDeleteStudent = (studentId: string, studentName: string) => {
+    toast({
+      title: "Student Removed",
+      description: `${studentName} has been removed from the system.`,
+      variant: "destructive"
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -96,10 +135,7 @@ export function StudentsView() {
           <h2 className="text-3xl font-bold text-foreground">Students</h2>
           <p className="text-muted-foreground">Manage student information and records</p>
         </div>
-        <Button className="bg-student text-white hover:bg-student/90">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Student
-        </Button>
+        <AddStudentModal />
       </div>
 
       {/* Stats Cards */}
@@ -219,14 +255,40 @@ export function StudentsView() {
                     {student.status}
                   </Badge>
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleEmailStudent(student.id, student.name)}
+                    >
                       <Mail className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleCallStudent(student.id, student.name)}
+                    >
                       <Phone className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleViewStudent(student.id, student.name)}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleEditStudent(student.id, student.name)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleDeleteStudent(student.id, student.name)}
+                    >
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>

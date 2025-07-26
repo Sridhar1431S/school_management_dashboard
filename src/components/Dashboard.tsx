@@ -100,7 +100,15 @@ export function Dashboard() {
   const ActiveComponent = menuItems.find(item => item.id === activeMenuItem)?.component || DashboardContent;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background animated-background">
+      {/* Floating Background Shapes */}
+      <div className="floating-shapes">
+        <div className="floating-shape"></div>
+        <div className="floating-shape"></div>
+        <div className="floating-shape"></div>
+        <div className="floating-shape"></div>
+      </div>
+
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
         <div 
