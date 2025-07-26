@@ -1,73 +1,94 @@
-# Welcome to your Lovable project
+📘 School Management System – Admin Dashboard
+Live Demo: https://school-management-dashboard-azure.vercel.app
 
-## Project info
+A modern, responsive, and animated Admin Dashboard built for managing a school’s core operations including students, teachers, classes, reports, and settings. This Progressive Web App (PWA) includes push notification demo support and clean UI components.
 
-**URL**: https://lovable.dev/projects/59b15369-bab9-4edf-acb7-2909010766fc
 
-## How can I edit this code?
 
-There are several ways of editing your application.
 
-**Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/59b15369-bab9-4edf-acb7-2909010766fc) and start prompting.
 
-Changes made via Lovable will be committed automatically to this repo.
 
-**Use your preferred IDE**
+![Uploading Screenshot 2025-07-26 125628.png…]()
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Follow these steps:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+✨ Features
+✅ Responsive Admin Dashboard
+
+✅ Progressive Web App (PWA) Setup
+
+✅ Push Notification Demo
+
+✅ Clean UI and Animated Interactions
+
+✅ Dark/Light Mode Toggle (if available)
+
+✅ Modular Codebase & Component Reuse
+
+🔧 Tech Stack
+Frontend Framework: React.js / Next.js (depends on your implementation)
+
+Styling: Tailwind CSS
+
+PWA Setup: manifest.json, Service Worker, Installable App
+
+Notifications: Simulated Push Notification using Web API or Firebase Cloud Messaging (optional)
+
+Deployment: Vercel
+
+🚀 Getting Started
+Prerequisites
+Node.js (>= 16)
+
+npm or yarn
+
+Installation
+
+git clone https://github.com/your-username/school-management-dashboard.git
+cd school-management-dashboard
+npm install
+Run Locally
+
 npm run dev
-```
+Visit: http://localhost:3000
 
-**Edit a file directly in GitHub**
+📱 PWA Support
+Install the app directly on desktop or mobile browsers.
+Offline caching enabled via service worker.
+Configured with custom app icon, splash screen, and theme color.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+🔔 Push Notification Demo
+On the dashboard, click "Send Notification" to trigger a sample browser notification.
 
-**Use GitHub Codespaces**
+Grant browser permission if prompted.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+(For production-ready messaging, Firebase Cloud Messaging integration is suggested.)
 
-## What technologies are used for this project?
+📁 Folder Structure
 
-This project is built with:
+📦 school-management-dashboard/
+├── public/
+│   ├── icons/               # App icons
+│   ├── manifest.json        # PWA manifest
+│   └── service-worker.js    # Custom service worker
+├── src/
+│   ├── components/          # Reusable UI components
+│   ├── pages/               # Route components
+│   ├── styles/              # Global styles or Tailwind config
+│   └── utils/               # Notification logic, helpers
+├── .eslintrc, tailwind.config.js, etc.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
-## How can I deploy this project?
+📄 License
+This project is licensed under the MIT License.
 
-Simply open [Lovable](https://lovable.dev/projects/59b15369-bab9-4edf-acb7-2909010766fc) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+🙌 Acknowledgements
+Tailwind CSS
+React.js
+Vercel
+Firebase (optional)
