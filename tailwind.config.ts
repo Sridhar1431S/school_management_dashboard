@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(var(--primary-hover))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -51,6 +52,26 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))'
+				},
+				info: {
+					DEFAULT: 'hsl(var(--info))',
+					foreground: 'hsl(var(--info-foreground))'
+				},
+				student: {
+					DEFAULT: 'hsl(var(--student-primary))'
+				},
+				teacher: {
+					DEFAULT: 'hsl(var(--teacher-primary))'
+				},
+				class: {
+					DEFAULT: 'hsl(var(--class-primary))'
+				},
+				report: {
+					DEFAULT: 'hsl(var(--report-primary))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
