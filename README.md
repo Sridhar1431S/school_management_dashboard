@@ -6,10 +6,7 @@ A modern, responsive, and animated Admin Dashboard built for managing a school�
 
 
 
-
-
-
-![Uploading Screenshot 2025-07-26 125628.png…]()
+<img width="1901" height="926" alt="Screenshot 2025-07-26 125628" src="https://github.com/user-attachments/assets/daba54b8-c07d-4d27-a1e2-e24d259f7f38" />
 
 
 
@@ -19,15 +16,10 @@ A modern, responsive, and animated Admin Dashboard built for managing a school�
 
 ✨ Features
 ✅ Responsive Admin Dashboard
-
 ✅ Progressive Web App (PWA) Setup
-
 ✅ Push Notification Demo
-
 ✅ Clean UI and Animated Interactions
-
 ✅ Dark/Light Mode Toggle (if available)
-
 ✅ Modular Codebase & Component Reuse
 
 🔧 Tech Stack
